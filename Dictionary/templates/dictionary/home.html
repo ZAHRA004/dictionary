@@ -1,0 +1,70 @@
+<!-- search -->
+<form method="get" action="{% url 'home' %}">
+    <input type="text" name="q" placeholder="Search..." value="{{ query }}">
+    <button type="submit">Search</button>
+    {% if query %}
+        <a href="{% url 'home' %}" class="btn">Clear Search</a>
+    {% endif %}
+
+    <script>
+    var timeout;
+    function resetTimeout() {
+        clearTimeout(timeout);
+        timeout = setTimeout(function() {
+            window.location.href = '{% url "login" %}?logout_reason=inactivity';
+        }, 10000);
+    }
+
+    window.onload = resetTimeout;
+    document.onmousemove = resetTimeout;
+    document.onkeypress = resetTimeout;
+    </script>
+    <a href={% url 'login' %}>logout</a>
+</form>
+
+
+<hr>
+
+<!-- add -->
+<form method="post" action="{% url 'home' %}">
+    {% csrf_token %}
+    <input type="hidden" name="add_word" value="true">
+    <label for="english">English:</label>
+    <input type="text" id="english" name="english" required>
+    <label for="persian">Persian:</label>
+    <input type="text" id="persian" name="persian" required>
+    <label for="description">Description:</label>
+    <input type="text" id="description" name="description" required>
+    <button type="submit">Add Word</button>
+</form>
+
+<hr>
+
+<!-- word list -->
+{% if query %}
+    <h3>Results for "{{ query }}":</h3>
+{% endif %}
+
+<ul>
+    {% for word in words %}
+        <li>
+            <form method="post" action="{% url 'home' %}">
+                {% csrf_token %}
+                <input type="hidden" name="edit_word" value="{{ word.id }}">
+                <label for="english_{{ word.id }}">English:</label>
+                <input type="text" id="english_{{ word.id }}" name="english" value ="{{ word.english }}" required>
+                <label for="persian_{{ word.id }}">Persian:</label>
+                <input type="text" id="persian_{{ word.id }}" name="persian" value="{{ word.persian }}" required>
+                <label for="description_{{ word.id }}">Description:</label>
+                <input type="text" id="description_{{ word.id }}" name="description" value="{{ word.description }}">
+                <button type="submit">Edit</button>
+            </form>
+
+            <form method="post" action="{% url 'home' %}" style="display:inline;">
+                {% csrf_token %}
+                <input type="hidden" name="delete_word" value="{{ word.id }}">
+                <button type="submit" onclick="return confirm('Are you sure you want to delete this word?')">Delete</button>
+            </form>
+        </li>
+    {% endfor %}
+</ul>

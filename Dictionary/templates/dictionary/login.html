@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content=
+        "width=device-width, initial-scale=1.0" />
+    <title>Login Page</title>
+    <style>
+        #logout-message {
+            margin-bottom: 15px;
+            padding: 10px;
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Login</h1>
+    <div id="logout-message" style="display:none;"></div>
+    <form method="POST">
+        {% csrf_token %}
+        {{form.as_p}}
+        {{captcha.as_p}}
+        <button type="submit">Login</button>
+        <a href={% url 'signup' %}>signup</a>
+        <a href='/forgotPassword'>forgot password? </a>
+       </form>
+
+       <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const logoutReason = urlParams.get('logout_reason');
+
+        if (logoutReason === 'inactivity') {
+            const messageContainer = document.getElementById('logout-message');
+            if (messageContainer) {
+                messageContainer.innerText = "You have been logged out due to inactivity.";
+                messageContainer.style.display = 'block';
+            }
+        }
+       </script>
+</body>
+
+</html>
