@@ -1,5 +1,10 @@
 from pydoc import describe
 from symtable import Class
+import random
+import string
+import hashlib
+import os
+import base64
 
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
@@ -15,6 +20,14 @@ from django.contrib import messages
 from django.utils.timezone import now
 from datetime import datetime
 from django.contrib.admin.views.decorators import staff_member_required
+import secrets
+from datetime import timedelta, datetime
+from django.contrib.auth.hashers import make_password
+
+
+def IntroView(request):
+    return render(request, 'dictionary/intro.html', {})
+
 
 def SignupView(request):
     if request.method == 'POST':
@@ -50,29 +63,84 @@ def LoginView(request):
         captchaForm = CaptchaTestForm()
     return render(request, 'dictionary/login.html', {'form': form, 'captcha': captchaForm})
 
+#def generate_reset_token(user):
+#    token = secrets.token_urlsafe(32)
+#    user.reset_token = token
+#    user.reset_token_expiry = datetime.now() + timedelta(hours=1)  # Token valid for 1 hour
+#    user.save()
+#    return token
+#def send_reset_email(user , email):
+#    token = generate_reset_token(user)
+#    reset_url = f"http://127.0.0.1:8000/reset-password/{token}/"
+#    send_mail(
+#        'Password Reset Request',
+#        f'Click the link to reset your password: {reset_url}',
+#        EMAIL_HOST_USER,
+#        [email],
+#        fail_silently=True
+#    )
+def generate_random_password():
+    COMMON_PASSWORDS = {
+    "123456", "password", "123456789", "qwerty", "12345678",
+    "111111", "123123", "abc123", "password1", "1234"}
+    while True:
+        password =  ''.join(random.choices( string.ascii_letters + string.digits + 
+                            string.punctuation,k=random.randint(8, 12) ))
+        if ( len(password) >= 8 and not password.isdigit() and password not in COMMON_PASSWORDS):
+            return password
 
+def hash_password_pbkdf2_sha256(password, iterations=870000):
+    salt = base64.b64encode(os.urandom(16)).decode('utf-8')
+    dk = hashlib.pbkdf2_hmac(
+        hash_name='sha256',           
+        password=password.encode(),   
+        salt=salt.encode(),           
+        iterations=iterations         
+    )
+    hashed_password = base64.b64encode(dk).decode('utf-8')
+    return  f"pbkdf2_sha256${iterations}${salt}${hashed_password}"
+    
 def ForgotPasswordView(request):
     if request.method == 'POST':
         form = EmailForm(request.POST)
         if form.is_valid():
+            email = request.POST.get('email')
             try:
-                user = User.objects.all().get(email=request.POST.get('email'))
+                user = User.objects.all().get(email=email)
+                #send_reset_email(user , user.email)
+                newPassword = generate_random_password()
+                hashed = hash_password_pbkdf2_sha256(newPassword)
+                user.password = hashed
+                user.save()
+                
                 send_mail(
-                    'forgot password',
-                    "jjjjjjjjjjjjjjjjjjj",
+                    'Password Reset Request',
+                    f'your password: {newPassword}',
                     EMAIL_HOST_USER,
-                    [request.POST.get('email')], fail_silently=True)
-                return redirect('/forgotPassword/done')
+                    [email],
+                    fail_silently=True
+                )
+                return render(request, 'PasswordResetDone.html')
             except:
-                return HttpResponse('this email does not exist')
+                return render(request, 'PasswordResetEmailNotFound.html')
+    form = EmailForm()
+    return render(request, 'forgotPassword.html' , {'form': form})
 
-    else:
-        form = EmailForm()
-    return render(request, 'dictionary/forgotPassword.html', {'form': form})
+#def reset_password(request, token):
+#    try:
+#        user = User.objects.get(reset_token=token, reset_token_expiry__gte=datetime.now())
+#    except User.DoesNotExist:
+#        return render(request, 'invalid_token.html')
 
+#    if request.method == 'POST':
+#        new_password = request.POST.get('password')
+#        user.password = make_password(new_password)
+#        user.reset_token = None 
+#        user.reset_token_expiry = None
+#        user.save()
+#        return redirect('login')  
 
-def passwordResetDoneView(request):
-    return render(request, 'dictionary/passwordResetDone.html', {})
+#    return render(request, 'reset_password.html')
 
 
 def LogoutView(request):
