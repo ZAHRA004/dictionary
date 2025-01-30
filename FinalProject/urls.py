@@ -20,6 +20,7 @@ from django.urls import path , include
 from Dictionary.views import *
 urlpatterns = [
     #    path('admin/', admin.site.urls),
+    path('' , IntroView , name = 'intro') ,
     path('admin/', admin.site.urls),
     path('admin-panel/', AdminPanelView, name='adminPanel'),
     path('captcha/', include('captcha.urls')),
@@ -28,5 +29,5 @@ urlpatterns = [
     path('login/home' , HomeView , name = 'home') ,
     path('logout/' , LogoutView , name = 'logout'),
     path('forgotPassword/' , ForgotPasswordView , name = 'forgotPassword'),
-    path('forgotPassword/done' , passwordResetDoneView , name= 'passwordResetDone')
+    #path('reset-password/<str:token>/', reset_password, name='reset_password')
 ]
