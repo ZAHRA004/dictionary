@@ -4,7 +4,7 @@ from symtable import Class
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from django.contrib.auth import login, logout
+from django.contrib.auth import login, logout, authenticate
 from .forms import *
 from .models import *
 from django.core.mail import send_mail
@@ -19,37 +19,39 @@ from django.contrib.admin.views.decorators import staff_member_required
 def SignupView(request):
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
-        email = EmailForm(request.POST)
-        try:
-            user = User.objects.all().get(email=request.POST.get('email'))
-            return HttpResponse('this email is exist')
-        except:
-            if form.is_valid():
-                form.save()
-                user = User.objects.get(username=form.cleaned_data['username'])
-                user.email = request.POST.get('email')
-                user.save()
-                return redirect('/login')
+        email_form = EmailForm(request.POST)
+
+        if form.is_valid() and email_form.is_valid():
+            user = form.save()
+            user.email = email_form.cleaned_data['email']
+            user.save()
+            return redirect('/login')
+        else:
+            return render(request, 'dictionary/login.html', {'form': form, 'email': email_form})
+
     else:
         form = UserCreationForm()
-        email = EmailForm()
-    return render(request, 'dictionary/signup.html', {'form': form, 'email': email})
+        email_form = EmailForm()
 
+    return render(request, 'dictionary/login.html', {'form': form, 'email': email_form})
 
 def LoginView(request):
     if request.method == 'POST':
         form = AuthenticationForm(data=request.POST)
-        captchaForm = CaptchaTestForm(request.POST)
-        if form.is_valid() and captchaForm.is_valid():
-            user = form.get_user()
-            login(request, user)
-            request.method = 'GET'
-            return redirect('/login/home')
+        captcha_form = CaptchaTestForm(request.POST)
+        if form.is_valid() and captcha_form.is_valid():
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password')
+            user = authenticate(username=username, password=password)
+            if user is not None:
+                login(request, user)
+                return redirect('/login/home')
+        else:
+            return render(request, 'dictionary/login.html', {'form': form, 'captcha': captcha_form})  # استفاده از captcha_form
     else:
         form = AuthenticationForm()
-        captchaForm = CaptchaTestForm()
-    return render(request, 'dictionary/login.html', {'form': form, 'captcha': captchaForm})
-
+        captcha_form = CaptchaTestForm()
+    return render(request, 'dictionary/login.html', {'form': form, 'captcha': captcha_form})  # استفاده از captcha_form
 
 def ForgotPasswordView(request):
     if request.method == 'POST':
