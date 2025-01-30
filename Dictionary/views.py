@@ -36,29 +36,31 @@ def SignupView(request):
         email = request.POST.get('email')
         password1 = request.POST.get('password1')
         password2 = request.POST.get('password2')
-
-        if password1 != password2:
-            messages.error(request, "Passwords do not match!")
-            #return render(request, 'login.html')
-
-        if User.objects.filter(username=username).exists():
-            messages.error(request, "Username already exists!")
-            #return render(request, 'login.html')
-
-        if User.objects.filter(email=email).exists():
-            messages.error(request, "Email already exists!")
-            #return render(request, 'login.html')
-
-        user = User.objects.create(
+        
+        if username and email and password1 and password2 and (password1 == password2) and not (User.objects.filter(username=username).exists()) and not (User.objects.filter(email=email).exists()) :
+            if len(password1) < 8 :
+                messages.error(request, "password must be 8 or more caracter")
+                return render(request, 'dictionary/signup.html' )
+            user = User.objects.create(
             username=username,
             email=email,
-            password=make_password(password1)
-        )
+            password=make_password(password1))
+            messages.success(request, "Your account has been created successfully!")
+            return redirect('login')
+        else:
+            if password1 != password2 :
+                messages.error(request, "Passwords do not match!")
+                return render(request, 'dictionary/signup.html' )
 
-        messages.success(request, "Your account has been created successfully!")
-        #return redirect('login')
+            if User.objects.filter(username=username).exists():
+                messages.error(request, "Username already exists!")
+                return render(request, 'dictionary/signup.html' )
 
-    #return render(request, 'login.html')
+            if User.objects.filter(email=email).exists():
+                messages.error(request, "Email already exists!")
+                return render(request, 'dictionary/signup.html' )
+
+    return render(request, 'dictionary/signup.html' )
 
 def LoginView(request):
     if request.method == 'POST':
@@ -76,6 +78,7 @@ def LoginView(request):
     else:
         form = AuthenticationForm() #<<<<<<< HEAD
         captcha_form = CaptchaTestForm()
+        
     return render(request, 'dictionary/login.html', {'form': form, 'captcha': captcha_form})
 
 #def generate_reset_token(user):
@@ -94,6 +97,7 @@ def LoginView(request):
 #        [email],
 #        fail_silently=True
 #    )
+
 def generate_random_password():
     COMMON_PASSWORDS = {
     "123456", "password", "123456789", "qwerty", "12345678",
@@ -128,7 +132,6 @@ def ForgotPasswordView(request):
                 hashed = hash_password_pbkdf2_sha256(newPassword)
                 user.password = hashed
                 user.save()
-                
                 send_mail(
                     'Password Reset Request',
                     f'your password: {newPassword}',

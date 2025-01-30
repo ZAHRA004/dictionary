@@ -80,7 +80,7 @@ body{
     margin-left: 15px;
 }
 .btn.white-btn{
-    background: rgba(255, 255, 255, 0.7);
+    background: rgba(255, 255, 255, 0.4);
 }
 .btn.btn.white-btn:hover{
     background: rgba(255, 255, 255, 0.5);
@@ -253,35 +253,41 @@ header{
     </style>
 </head>
 <body>
- <div class="wrapper">
-    <nav class="nav">
-        <div class="nav-logo">
-            <p>LOGO .</p>
+    <div class="wrapper">
+        <nav class="nav">
+            <div class="nav-logo">
+                <p>LOGO .</p>
+            </div>
+            <div class="nav-menu" id="navMenu">
+                <ul>
+                    <li><a href="#" class="link active">Home</a></li>
+                    <li><a href="#" class="link">Blog</a></li>
+                    <li><a href="#" class="link">Services</a></li>
+                    <li><a href="/login/home" class="link">About</a></li>
+                </ul>
+            </div>
+            <div class="nav-button">
+                <a href="/login">
+                    <button class="btn white-btn" id="loginBtn" onclick="login()">Login</button>
+                </a>
+                <a href="/signup">
+                    <button class="btn" id="registerBtn" onclick="register()">Sign Up</button>
+                </a>
+            </div>
+            
+        </nav>
+        <div>
+            {% block signupBox %}
+                {% endblock %}
+            {% block loginBox %}
+                {% endblock %}
+            {% block forgotPasswordBox %}
+                {%endblock%}
+            {% block homeBox %}
+                {%endblock%}
         </div>
-        <div class="nav-menu" id="navMenu">
-            <ul>
-                <li><a href="#" class="link active">Home</a></li>
-                <li><a href="#" class="link">Blog</a></li>
-                <li><a href="#" class="link">Services</a></li>
-                <li><a href="/login/home" class="link">About</a></li>
-            </ul>
-        </div>
-        <div class="nav-button">
-            <a href="/login">
-                <button class="btn white-btn" id="loginBtn" onclick="login()">Login</button>
-            </a>
-            <a href="/login/#">
-                <button class="btn" id="registerBtn" onclick="register()">Sign Up</button>
-            </a>
-        </div>
-        <div class="nav-menu-btn">
-            <i class="bx bx-menu" onclick="myMenuFunction()"></i>
-        </div>
-    </nav>
     </div>
-</div>
-
-
+</body>
 <script>
 
    function myMenuFunction() {
@@ -322,6 +328,4 @@ header{
     }
 
 </script>
-
-</body>
 </html>

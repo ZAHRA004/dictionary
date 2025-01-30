@@ -25,7 +25,7 @@ urlpatterns = [
     path('admin-panel/', AdminPanelView, name='adminPanel'),
     path('captcha/', include('captcha.urls')),
     path('login/' , LoginView , name = 'login'),
-    path('login/' , SignupView , name='signup'),
+    path('signup/' , SignupView , name='signup'),
     path('login/home' , HomeView , name = 'home') ,
     path('logout/' , LogoutView , name = 'logout'),
     path('forgotPassword/' , ForgotPasswordView , name = 'forgotPassword'),
