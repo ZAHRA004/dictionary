@@ -23,6 +23,7 @@ from django.contrib.admin.views.decorators import staff_member_required
 import secrets
 from datetime import timedelta, datetime
 from django.contrib.auth.hashers import make_password
+from django.contrib.auth.hashers import make_password
 
 
 def IntroView(request):
@@ -31,22 +32,33 @@ def IntroView(request):
 
 def SignupView(request):
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
-        email_form = EmailForm(request.POST)
+        username = request.POST.get('username')
+        email = request.POST.get('email')
+        password1 = request.POST.get('password1')
+        password2 = request.POST.get('password2')
 
-        if form.is_valid() and email_form.is_valid():
-            user = form.save()
-            user.email = email_form.cleaned_data['email']
-            user.save()
-            return redirect('/login')
-        else:
-            return render(request, 'dictionary/login.html', {'form': form, 'email': email_form})
+        if password1 != password2:
+            messages.error(request, "Passwords do not match!")
+            #return render(request, 'login.html')
 
-    else:
-        form = UserCreationForm()
-        email_form = EmailForm()
+        if User.objects.filter(username=username).exists():
+            messages.error(request, "Username already exists!")
+            #return render(request, 'login.html')
 
-    return render(request, 'dictionary/login.html', {'form': form, 'email': email_form})
+        if User.objects.filter(email=email).exists():
+            messages.error(request, "Email already exists!")
+            #return render(request, 'login.html')
+
+        user = User.objects.create(
+            username=username,
+            email=email,
+            password=make_password(password1)
+        )
+
+        messages.success(request, "Your account has been created successfully!")
+        #return redirect('login')
+
+    #return render(request, 'login.html')
 
 def LoginView(request):
     if request.method == 'POST':
@@ -60,15 +72,11 @@ def LoginView(request):
                 login(request, user)
                 return redirect('/login/home')
         else:
-            return render(request, 'dictionary/login.html', {'form': form, 'captcha': captcha_form})  # استفاده از captcha_form
+            return render(request, 'dictionary/login.html', {'form': form, 'captcha': captcha_form})
     else:
-        form = AuthenticationForm()
-<<<<<<< HEAD
+        form = AuthenticationForm() #<<<<<<< HEAD
         captcha_form = CaptchaTestForm()
-    return render(request, 'dictionary/login.html', {'form': form, 'captcha': captcha_form})  # استفاده از captcha_form
-=======
-        captchaForm = CaptchaTestForm()
-    return render(request, 'dictionary/login.html', {'form': form, 'captcha': captchaForm})
+    return render(request, 'dictionary/login.html', {'form': form, 'captcha': captcha_form})
 
 #def generate_reset_token(user):
 #    token = secrets.token_urlsafe(32)
@@ -95,7 +103,7 @@ def generate_random_password():
                             string.punctuation,k=random.randint(8, 12) ))
         if ( len(password) >= 8 and not password.isdigit() and password not in COMMON_PASSWORDS):
             return password
->>>>>>> 377e6ad89c9e9aa85b006810e38c9f33fc398202
+#>>>>>>> 377e6ad89c9e9aa85b006810e38c9f33fc398202
 
 def hash_password_pbkdf2_sha256(password, iterations=870000):
     salt = base64.b64encode(os.urandom(16)).decode('utf-8')
