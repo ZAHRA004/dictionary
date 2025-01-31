@@ -1,15 +1,196 @@
 {% extends "intro.html" %}
 {% block homeBox %}
+<style>
+    /* Import Font */
+@import url('https://fonts.googleapis.com/css2?family=Indie+Flower&display=swap');
 
-<!-- search -->
-<form method="get" action="{% url 'home' %}">
-    <input type="text" name="q" placeholder="Search..." value="{{ query }}">
-    <button type="submit">Search</button>
-    {% if query %}
-        <a href="{% url 'home' %}" class="btn">Clear Search</a>
-    {% endif %}
+/* Main Container */
+.container {
+    text-align: center;
+    position: relative;
+    align-items: center;
+    justify-content: center;
+    width: 80vw;
+    height: 1000px;
+    overflow: hidden;
+    
+}
+/* Search Bar */
+.search-bar {
+    margin-top : 120px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: white;
+    padding: 15px;
+    border-radius: 30px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
 
-    <script>
+.search-bar input {
+    border: none;
+    outline: none;
+    flex: 1;
+    font-size: 18px;
+    padding-left: 15px;
+}
+
+.search-icon {
+    font-size: 20px;
+    cursor: pointer;
+    color: purple;
+}
+.search {
+    display: flex;
+    align-items: center;
+    position: relative;
+    width: 100%;
+}
+
+/* Content Section */
+.content {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+
+}
+
+/* Add Words Box */
+.add-words,
+.words-list {
+    width: 45%;
+    background: white;
+    padding: 20px;
+    border-radius: 20px;
+    box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Headers */
+h2 {
+    font-size: 24px;
+    margin-bottom: 15px;
+}
+
+/* Labels */
+label {
+    display: block;
+    text-align: left;
+    font-size: 18px;
+    margin-bottom: 5px;
+}
+
+/* Inputs */
+input, textarea {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 10px;
+    border: 1px solid purple;
+    background: #d3e8f1;
+    margin-bottom: 10px;
+}
+
+/* Buttons */
+button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 15px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.add-btn {
+    background: purple;
+    color: white;
+    margin-top: 10px;
+    box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+/* Delete & Edit Buttons */
+.buttons {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+}
+
+.delete {
+    background: #c774c7;
+    color: white;
+}
+
+.edit {
+    background: #5d9eb3;
+    color: white;
+}
+.swiper {
+    width: 600px;
+    height: 300px;
+  }
+
+
+</style>
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-element-bundle.min.js"></script>
+<div class="container">
+    <div class="search-bar">
+        <form class = 'search' method="get" action="{% url 'home' %}">
+            <input type="text" name="q" placeholder="Search..." value="{{ query }}">
+            <div class="search-icon"><button type="submit">Search🔍</button></div>
+        </form>
+
+    </div>
+    
+
+    <div class="content">
+        <!-- Add Words Form -->
+        <div class="add-words">
+            <h2>add words</h2>
+            <form  method="post" action="{% url 'home' %}">
+                {% csrf_token %}
+                <label for="english">english</label>
+                <input type="text" id="english" name="english" required>
+                
+                <label for="persian">persian</label>
+                <input type="text" id="persian" name="persian" required>
+                
+                <label for="description">description</label>
+                <textarea id="description" name="description" required></textarea>
+                
+                <button class="add-btn" type="submit">Add</button>
+            </form>
+        </div>
+
+        <!-- Words List -->
+        <div class="words-list">
+            <h2>words</h2>
+            <swiper-container>
+                {% for word in words %}
+                    <swiper-slide>
+                        <form method="post" action="{% url 'home' %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="edit_word" value="{{ word.id }}">
+                            <label for="english_{{ word.id }}">English:</label>
+                            <input type="text" id="english_{{ word.id }}" name="english" value ="{{ word.english }}" required>
+                            <label for="persian_{{ word.id }}">Persian:</label>
+                            <input type="text" id="persian_{{ word.id }}" name="persian" value="{{ word.persian }}" required>
+                            <label for="description_{{ word.id }}">Description:</label>
+                            <input type="text" id="description_{{ word.id }}" name="description" value="{{ word.description }}">
+                            <button class="edit" type="submit">Edit</button>
+                        </form>
+
+                        <form method="post" action="{% url 'home' %}" style="display:inline;">
+                            {% csrf_token %}
+                            <input type="hidden" name="delete_word" value="{{ word.id }}">
+                            <button class="delete" type="submit" onclick="return confirm('Are you sure you want to delete this word?')">Delete</button>
+                        </form>
+                    </swiper-slide>
+                {% endfor %}
+            </swiper-container>
+        </div>
+    </div>
+</div>
+
+<!--<script>
     var timeout;
     function resetTimeout() {
         clearTimeout(timeout);
@@ -21,55 +202,5 @@
     window.onload = resetTimeout;
     document.onmousemove = resetTimeout;
     document.onkeypress = resetTimeout;
-    </script>
-    <a href={% url 'login' %}>logout</a>
-</form>
-
-
-<hr>
-
-<!-- add -->
-<form method="post" action="{% url 'home' %}">
-    {% csrf_token %}
-    <input type="hidden" name="add_word" value="true">
-    <label for="english">English:</label>
-    <input type="text" id="english" name="english" required>
-    <label for="persian">Persian:</label>
-    <input type="text" id="persian" name="persian" required>
-    <label for="description">Description:</label>
-    <input type="text" id="description" name="description" required>
-    <button type="submit">Add Word</button>
-</form>
-
-<hr>
-
-<!-- word list -->
-{% if query %}
-    <h3>Results for "{{ query }}":</h3>
-{% endif %}
-
-<ul>
-    {% for word in words %}
-        <li>
-            <form method="post" action="{% url 'home' %}">
-                {% csrf_token %}
-                <input type="hidden" name="edit_word" value="{{ word.id }}">
-                <label for="english_{{ word.id }}">English:</label>
-                <input type="text" id="english_{{ word.id }}" name="english" value ="{{ word.english }}" required>
-                <label for="persian_{{ word.id }}">Persian:</label>
-                <input type="text" id="persian_{{ word.id }}" name="persian" value="{{ word.persian }}" required>
-                <label for="description_{{ word.id }}">Description:</label>
-                <input type="text" id="description_{{ word.id }}" name="description" value="{{ word.description }}">
-                <button type="submit">Edit</button>
-            </form>
-
-            <form method="post" action="{% url 'home' %}" style="display:inline;">
-                {% csrf_token %}
-                <input type="hidden" name="delete_word" value="{{ word.id }}">
-                <button type="submit" onclick="return confirm('Are you sure you want to delete this word?')">Delete</button>
-            </form>
-        </li>
-    {% endfor %}
-</ul>
-
-    {%endblock%}
+    </script>-->
+{%endblock%}

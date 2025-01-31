@@ -169,7 +169,7 @@ def LogoutView(request):
 
 
 def HomeView(request):
-    if request.user.is_authenticated:
+    """if request.user.is_authenticated:
         last_activity = request.session.get('last_activity')
         if last_activity:
             last_activity = datetime.fromisoformat(last_activity)
@@ -177,7 +177,7 @@ def HomeView(request):
             if elapsed_time > 20:
                 del request.session['last_activity']
                 return redirect('login')
-        request.session['last_activity'] = datetime.now().isoformat()
+        request.session['last_activity'] = datetime.now().isoformat()"""
 
     query = request.GET.get('q', '')
 
@@ -215,11 +215,12 @@ def HomeView(request):
 
     # words
     words = Dictionary.objects.filter(addedUser=request.user)
+    print(type(words))
     if query:
         words = words.filter(
             Q(english__icontains=query) | Q(persian__icontains=query)
         )
-
+    words = words.order_by('-id')
     return render(request, 'dictionary/home.html', {'form': form, 'words': words, 'query':query})
 
 
