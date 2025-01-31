@@ -1,0 +1,34 @@
+<!-- user_detail.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Details</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="user-detail">
+        <h1>User: {{ user.username }}</h1>
+        <p>Joined on: {{ user.date_joined }}</p>
+    </div>
+    <h2>Words Registered</h2>
+    <p>Total words: {{ total_words }}</p>
+    <ul>
+    {% for word in words %}
+        <li>
+            <form method="post" action="{% url 'user_detail' user.id %}">
+                {% csrf_token %}
+                <label for="english_{{ word.id }}">English:</label>
+                <input type="text" id="english_{{ word.id }}" name="english" value ="{{ word.english }}" required>
+                <label for="persian_{{ word.id }}">Persian:</label>
+                <input type="text" id="persian_{{ word.id }}" name="persian" value="{{ word.persian }}" required>
+                <label for="description_{{ word.id }}">Description:</label>
+                <input type="text" id="description_{{ word.id }}" name="description" value="{{ word.description }}">
+            </form>
+        </li>
+    {% endfor %}
+    </ul>
+</body>
+</html>
