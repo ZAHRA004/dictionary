@@ -24,6 +24,8 @@ import secrets
 from datetime import timedelta, datetime
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.hashers import make_password
+from django.db.models import Count
+
 
 
 def IntroView(request):
@@ -228,11 +230,11 @@ def HomeView(request):
 def AdminPanelView(request):
     # all users
     total_users = User.objects.count()
-
     # all words
     total_words = Dictionary.objects.count()
 
-    # words for each user
+    users_with_word_count = User.objects.annotate(word_count=Count('word'))
+    users = User.objects.all()
     users_data = []
     for user in User.objects.all():
         user_words_count = Dictionary.objects.filter(addedUser=user).count()
@@ -240,7 +242,6 @@ def AdminPanelView(request):
             'username': user.username,
             'word_count': user_words_count
         })
-
     # sort
     users_data = sorted(users_data, key=lambda x: x['word_count'], reverse=True)
 
@@ -248,10 +249,34 @@ def AdminPanelView(request):
     chart_labels = [user['username'] for user in users_data]
     chart_data = [user['word_count'] for user in users_data]
 
-    return render(request, 'adminPanel.html', {
+    context = {
+        'users_with_word_count': users_with_word_count,
         'total_users': total_users,
         'total_words': total_words,
         'users_data': users_data,
         'chart_labels': chart_labels,
-        'chart_data': chart_data
-    })
+        'chart_data': chart_data,
+        'users': users,
+    }
+    return render(request, 'adminPanel.html', context)
+
+
+def user_detail(request, user_id):
+    user = get_object_or_404(User, id=user_id)
+    words = Dictionary.objects.filter(addedUser=request.user)
+    total_words = words.count()
+
+    context = {
+        'user': user,
+        'words': words,
+        'total_words' : total_words
+    }
+    query = request.GET.get('q', '')
+    if query:
+        words = words.filter(
+            Q(english__icontains=query) | Q(persian__icontains=query)
+        )
+    return render(request, 'user_detail.html', context)
+
+
+

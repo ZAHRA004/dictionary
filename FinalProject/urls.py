@@ -18,11 +18,14 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path , include
 from Dictionary.views import *
+
+
 urlpatterns = [
     #    path('admin/', admin.site.urls),
     path('' , IntroView , name = 'intro') ,
     path('admin/', admin.site.urls),
     path('admin-panel/', AdminPanelView, name='adminPanel'),
+    path('user-detail/<int:user_id>/', user_detail, name='user_detail'),
     path('captcha/', include('captcha.urls')),
     path('login/' , LoginView , name = 'login'),
     path('signup/' , SignupView , name='signup'),
