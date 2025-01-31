@@ -35,7 +35,7 @@ EMAIL_PORT = 587
 #EMAIL_HOST_USER = 'zhra.tghv@gmail.com'
 #EMAIL_HOST_PASSWORD = 'zoro uhug xrmi mmli'
 EMAIL_HOST_USER = 'hnajafi1383@gmail.com'
-EMAIL_HOST_PASSWORD = 'icjb yqst oker ddlw'
+EMAIL_HOST_PASSWORD = 'opqn irlt vvuy fncf'
 
 
 # Application definition
