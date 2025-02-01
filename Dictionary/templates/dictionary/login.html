@@ -27,6 +27,7 @@
 <div class="form-box">
     <div class="login-container" id="login">
         <div class="top">
+            <span>Don't have an account? <a href="/signup" onclick="register()">Sign Up</a></span>
             <header>Login</header>
             <form method="POST" action="{% url 'login' %}">
                 {% csrf_token %}

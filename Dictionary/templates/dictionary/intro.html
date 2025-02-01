@@ -230,6 +230,7 @@ header{
     .nav-menu-btn i:hover{
         background: rgba(255, 255, 255, 0.15);
     }
+    
 }
 @media only screen and (max-width: 540px) {
     .wrapper{
@@ -239,7 +240,11 @@ header{
         width: 80vw;
         height: 500px;
     }
-    .register-container, .login-container{
+    .register-container{
+        width: 80vw;
+        padding: 0 20px;
+    }
+    .login-container{
         width: 100%;
         padding: 0 20px;
     }
@@ -247,6 +252,12 @@ header{
         flex-direction: column;
         gap: 0;
     }
+    #short{
+        display: block;
+    }
+}
+#short{
+    display:none;
 }
     </style>
 </head>
@@ -261,6 +272,8 @@ header{
                     <li><a href='' class="link active">Home</a></li>
                     <li><a href="/admin" class="link">Admin Panel</a></li>
                     <li><a href="#" class="link">Services</a></li>
+                    <li id = 'short'><a href='/login' class='link'>login</a></li>
+                    <li id = 'short'><a href='/signup' class='link'>sign up</a></li>
                     
                 </ul>
             </div>
@@ -278,6 +291,7 @@ header{
             
         </nav>
         <div>
+           
             {% block signupBox %}
                 {% endblock %}
             {% block loginBox %}
@@ -286,6 +300,7 @@ header{
                 {%endblock%}
             {% block homeBox %}
                 {%endblock%}
+            
         </div>
     </div>
 </body>
