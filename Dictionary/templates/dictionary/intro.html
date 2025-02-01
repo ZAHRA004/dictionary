@@ -270,7 +270,7 @@ header{
             <div class="nav-menu" id="navMenu">
                 <ul>
                     <li><a href='' class="link active">Home</a></li>
-                    <li><a href="/admin" class="link">Admin Panel</a></li>
+                    <li><a href="/admin-panel" class="link">Admin Panel</a></li>
                     <li><a href="#" class="link">Services</a></li>
                     <li id = 'short'><a href='/login' class='link'>login</a></li>
                     <li id = 'short'><a href='/signup' class='link'>sign up</a></li>
@@ -288,7 +288,6 @@ header{
             <div class="nav-menu-btn">
                 <i class="bx bx-menu" onclick="myMenuFunction()"></i>
             </div>
-            
         </nav>
         <div>
            
@@ -300,11 +299,17 @@ header{
                 {%endblock%}
             {% block homeBox %}
                 {%endblock%}
+<<<<<<< HEAD
             
+=======
+            {% block user_detailBox %}
+                {% endblock %}
+            {% block adminPanelBox %}
+                {% endblock %}
+>>>>>>> 244788b4b7ed98e25bc2aba77a909b75ce01ee43
         </div>
     </div>
-</body>
-<script>
+    <script>
 
    function myMenuFunction() {
     var i = document.getElementById("navMenu");
@@ -316,32 +321,32 @@ header{
     }
    }
 
-</script>
+    </script>
 
-<script>
+    <script>
 
-    var a = document.getElementById("loginBtn");
-    var b = document.getElementById("registerBtn");
-    var x = document.getElementById("login");
-    var y = document.getElementById("register");
+        var a = document.getElementById("loginBtn");
+        var b = document.getElementById("registerBtn");
+        var x = document.getElementById("login");
+        var y = document.getElementById("register");
 
-    function login() {
-        x.style.left = "4px";
-        y.style.right = "-520px";
-        a.className += " white-btn";
-        b.className = "btn";
-        x.style.opacity = 1;
-        y.style.opacity = 0;
-    }
+        function login() {
+            x.style.left = "4px";
+            y.style.right = "-520px";
+            a.className += " white-btn";
+            b.className = "btn";
+            x.style.opacity = 1;
+            y.style.opacity = 0;
+        }
 
-    function register() {
-        x.style.left = "-510px";
-        y.style.right = "5px";
-        a.className = "btn";
-        b.className += " white-btn";
-        x.style.opacity = 0;
-        y.style.opacity = 1;
-    }
-
-</script>
+        function register() {
+            x.style.left = "-510px";
+            y.style.right = "5px";
+            a.className = "btn";
+            b.className += " white-btn";
+            x.style.opacity = 0;
+            y.style.opacity = 1;
+        }
+    </script>
+</body>
 </html>

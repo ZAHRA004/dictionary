@@ -263,7 +263,7 @@ def AdminPanelView(request):
 
 def user_detail(request, user_id):
     user = get_object_or_404(User, id=user_id)
-    words = Dictionary.objects.filter(addedUser=request.user)
+    words = Dictionary.objects.filter(addedUser=user)
     total_words = words.count()
 
     context = {
@@ -276,6 +276,7 @@ def user_detail(request, user_id):
         words = words.filter(
             Q(english__icontains=query) | Q(persian__icontains=query)
         )
+        context['words'] = words
     return render(request, 'user_detail.html', context)
 
 

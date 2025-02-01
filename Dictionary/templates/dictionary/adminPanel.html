@@ -1,69 +1,292 @@
-<!-- admin_dashboard.html -->
+{% extends "intro.html" %}
+{% block adminPanelBox %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+    .nav-button .btn{
+        width: 130px;
+        height: 40px;
+        font-weight: 500;
+        background: rgba(255, 255, 255, 0.4);
+        border: none;
+        border-radius: 30px;
+        cursor: pointer;
+        transition: .3s ease;
+    }
+    .btn:hover{
+        background: rgba(255, 255, 255, 0.3);
+    }
+    #registerBtn{
+        margin-left: 15px;
+    }
+    .btn.white-btn{
+        background: rgba(255, 255, 255, 1);
+    }
+    .btn.btn.white-btn:hover{
+        background: rgba(255, 255, 255, 0.5);
+    }
+    /* Import Font */
+@import url('https://fonts.googleapis.com/css2?family=Indie+Flower&display=swap');
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard</title>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-</head>
+/* Main Container */
+.container {
+    text-align: center;
+    position: relative;
+    align-items: center;
+    justify-content: center;
+    width: 80vw;
+    height: 1000px;
+    overflow: hidden;
+
+}
+/* Search Bar */
+.search-bar {
+    margin-top : 120px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: white;
+    padding: 15px;
+    border-radius: 30px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.search-bar input {
+    border: none;
+    outline: none;
+    flex: 1;
+    font-size: 18px;
+    padding-left: 15px;
+}
+
+.search-icon {
+    font-size: 20px;
+    cursor: pointer;
+    color: purple;
+}
+.search {
+    display: flex;
+    align-items: center;
+    position: relative;
+    width: 100%;
+}
+
+/* Content Section */
+.content {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10vw
+
+}
+
+/* Add Words Box */
+.add-words,
+.words-list {
+    width: 45%;
+    background: white;
+    padding: 20px;
+    border-radius: 20px;
+    box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Headers */
+h2 {
+    font-size: 24px;
+    margin-bottom: 15px;
+}
+
+/* Labels */
+label {
+    display: block;
+    text-align: left;
+    font-size: 18px;
+    margin-bottom: 5px;
+}
+
+/* Inputs */
+input, textarea, userlist{
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 10px;
+    border: 1px solid purple;
+    background: #d3e8f1;
+    margin-bottom: 10px;
+}
+
+/* Buttons */
+button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 15px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.add-btn {
+    background: purple;
+    color: white;
+    margin-top: 10px;
+    box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+/* Delete & Edit Buttons */
+.buttons {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+}
+
+.delete {
+    background: #c774c7;
+    color: white;
+}
+
+.edit {
+    background: #5d9eb3;
+    color: white;
+}
+.swiper {
+    width: 600px;
+    height: 300px;
+  }
+.user-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.user-table th,
+.user-table td {
+    padding: 12px 15px;
+    text-align: left;
+}
+
+.user-table th {
+    background-color: purple;
+    color: white;
+    font-weight: 600;
+}
+
+.user-table tbody tr {
+    border-bottom: 1px solid #dddddd;
+}
+
+.user-table tbody tr:nth-of-type(even) {
+    background-color: #f9f9f9;
+}
+
+.user-table tbody tr:last-of-type {
+    border-bottom: 2px solid purple;
+}
+
+.user-table tbody tr:hover {
+    background-color: #f1f1f1;
+}
+
+.btn {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+}
+
+.view-btn {
+    background-color: #5d9eb3;
+    color: white;
+}
+
+.view-btn:hover {
+    background-color: #4a7d8c;
+}
+
+.chart-container {
+    width: 100%;
+    height: 400px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#userChart {
+    max-width: 100%;
+    max-height: 100%;
+}
+</style>
 <body>
-    <div class="dashboard">
-        <h1>Admin Panel</h1>
+<div class="container">
+    <div class="content">
+        <div class="words-list">
+            <swiper-container>
+                <h1>Admin Panel</h1>
+                <br>
+                <h2>Summary</h2>
+                <p>Total Users: {{ total_users }}</p>
+                <p>Total Words: {{ total_words }}</p>
+                <br>
+                <h2>User List</h2>
+                    <table class="user-table">
+                        <thead>
+                            <tr>
+                                <th>Username</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for user in users %}
+                                <tr>
+                                    <td>{{ user.username }}</td>
+                                    <td>
+                                        <a href="{% url 'user_detail' user.id %}" class="btn view-btn">View</a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+            </swiper-container>
+        </div>
 
-        <h2>Summary</h2>
-        <p>Total Users: {{ total_users }}</p>
-        <p>Total Words: {{ total_words }}</p>
+        <div class="words-list">
+            <h2>Words Contribution Chart</h2>
+            <div class="chart-container">
+                <canvas id="userChart"></canvas>
+            </div>
 
-
-        <h2>User List</h2>
-        <table border="1">
-            <thead>
-                <tr>
-                    <th>Username</th>
-                    <th>Word Count</th>
-                </tr>
-            </thead>
-            <tbody>
-                <ul>
-                    {% for user in users %}
-                        <tr>
-                            <td><a href="{% url 'user_detail' user.id %}">{{ user.username }}</a></td>
-                            <td>{{ user.word_count }}</td>
-                        </tr>
-                    {% endfor %}
-                </ul>
-            </tbody>
-        </table>
-        <h2>Words Contribution Chart</h2>
-        <canvas id="userChart" width="400" height="200"></canvas>
-        <script>
-            const ctx = document.getElementById('userChart').getContext('2d');
-            const userChart = new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: {{ chart_labels|safe }},
-                    datasets: [{
-                        label: 'Words Added by Users',
-                        data: {{ chart_data|safe }},
-                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                        borderColor: 'rgba(75, 192, 192, 1)',
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    scales: {
-                        y: {
-                            beginAtZero: true
+            <script>
+                const ctx = document.getElementById('userChart').getContext('2d');
+                const userChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: {{ chart_labels|safe }},
+                        datasets: [{
+                            label: 'Words Added by Users',
+                            data: {{ chart_data|safe }},
+                            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                            borderColor: 'rgba(75, 192, 192, 1)',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
                         }
                     }
-                }
-            });
-        </script>
+                });
+            </script>
+        </div>
     </div>
+</div>
 </body>
-</html>
+{% endblock %}
 
 
 

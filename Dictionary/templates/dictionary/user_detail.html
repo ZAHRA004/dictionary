@@ -1,34 +1,166 @@
-<!-- user_detail.html -->
+{% extends "intro.html" %}
+{% block user_detailBox %}
+<style>
+    .nav-button .btn{
+        width: 130px;
+        height: 40px;
+        font-weight: 500;
+        background: rgba(255, 255, 255, 0.4);
+        border: none;
+        border-radius: 30px;
+        cursor: pointer;
+        transition: .3s ease;
+    }
+    .btn:hover{
+        background: rgba(255, 255, 255, 0.3);
+    }
+    #registerBtn{
+        margin-left: 15px;
+    }
+    .btn.white-btn{
+        background: rgba(255, 255, 255, 1);
+    }
+    .btn.btn.white-btn:hover{
+        background: rgba(255, 255, 255, 0.5);
+    }
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Details</title>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-</head>
-<body>
-    <div class="user-detail">
-        <h1>User: {{ user.username }}</h1>
-        <p>Joined on: {{ user.date_joined }}</p>
+.container {
+    text-align: center;
+    position: relative;
+    align-items: center;
+    justify-content: center;
+    width: 80vw;
+    height: 1000px;
+    overflow: hidden;
+
+}
+/* Search Bar */
+.search-bar {
+    margin-top : 120px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: white;
+    padding: 15px;
+    border-radius: 30px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.search-bar input {
+    border: none;
+    outline: none;
+    flex: 1;
+    font-size: 18px;
+    padding-left: 15px;
+}
+
+.search-icon {
+    font-size: 20px;
+    cursor: pointer;
+    color: purple;
+}
+.search {
+    display: flex;
+    align-items: center;
+    position: relative;
+    width: 100%;
+}
+
+/* Content Section */
+.content {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 200px;
+
+}
+
+/* Add Words Box */
+.add-words,
+.words-list {
+    width: 45%;
+    background: white;
+    padding: 20px;
+    border-radius: 20px;
+    box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Headers */
+h2 {
+    font-size: 24px;
+    margin-bottom: 15px;
+}
+
+/* Labels */
+label {
+    display: block;
+    text-align: left;
+    font-size: 18px;
+    margin-bottom: 5px;
+}
+
+/* Inputs */
+input, textarea {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 10px;
+    border: 1px solid purple;
+    background: #d3e8f1;
+    margin-bottom: 10px;
+}
+
+/* Buttons */
+button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 15px;
+    font-size: 16px;
+    cursor: pointer;
+}
+</style>
+
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-element-bundle.min.js"></script>
+<div class="container">
+    <div class="content">
+        <div class="words-list">
+            <swiper-container>
+                {% for word in words %}
+                    <swiper-slide>
+                        <form method="post" action="{% url 'home' %}">
+                            <h1>User: {{ user.username }}</h1>
+                            <br>
+                            <p>Joined on: {{ user.date_joined }}</p>
+                            <br>
+                            <br>
+                            <h2>Words Registered</h2>
+                            <br>
+                            <p>Total words: {{ total_words }}</p>
+                        </form>
+                    </swiper-slide>
+                {% endfor %}
+            </swiper-container>
+        </div>
+        <!-- Words List -->
+        <div class="words-list">
+            <h2>words</h2>
+            <swiper-container>
+                {% for word in words %}
+                    <swiper-slide>
+                        <form method="post" action="{% url 'home' %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="edit_word" value="{{ word.id }}">
+                            <label for="english_{{ word.id }}">English:</label>
+                            <input type="text" id="english_{{ word.id }}" name="english" value ="{{ word.english }}" required>
+                            <label for="persian_{{ word.id }}">Persian:</label>
+                            <input type="text" id="persian_{{ word.id }}" name="persian" value="{{ word.persian }}" required>
+                            <label for="description_{{ word.id }}">Description:</label>
+                            <input type="text" id="description_{{ word.id }}" name="description" value="{{ word.description }}">
+                        </form>
+                    </swiper-slide>
+                {% endfor %}
+            </swiper-container>
+        </div>
     </div>
-    <h2>Words Registered</h2>
-    <p>Total words: {{ total_words }}</p>
-    <ul>
-    {% for word in words %}
-        <li>
-            <form method="post" action="{% url 'user_detail' user.id %}">
-                {% csrf_token %}
-                <label for="english_{{ word.id }}">English:</label>
-                <input type="text" id="english_{{ word.id }}" name="english" value ="{{ word.english }}" required>
-                <label for="persian_{{ word.id }}">Persian:</label>
-                <input type="text" id="persian_{{ word.id }}" name="persian" value="{{ word.persian }}" required>
-                <label for="description_{{ word.id }}">Description:</label>
-                <input type="text" id="description_{{ word.id }}" name="description" value="{{ word.description }}">
-            </form>
-        </li>
-    {% endfor %}
-    </ul>
-</body>
-</html>
+</div>
+{% endblock %}
