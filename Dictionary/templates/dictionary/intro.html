@@ -5,263 +5,404 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-    <title>Login & Registration</title>
+    <title>Intro Page</title>
     <style>
         /* POPPINS FONT */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
 
-*{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Poppins', sans-serif;
-}
-body{
-    background: rgb(60,180,185);
-    background: linear-gradient(90deg, rgba(60,180,185,1) 0%, rgba(168,29,253,1) 70%, rgba(39,69,150,1) 100%);
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
 
+        body {
+            background: rgb(60,180,185);
+            background: linear-gradient(90deg, rgba(60,180,185,1) 0%, rgba(168,29,253,1) 70%, rgba(39,69,150,1) 100%);
+        }
+
+        .wrapper {
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: rgba(39, 39, 39, 0.4);
+        }
+
+        .nav {
+            position: fixed;
+            top: 0;
+            display: flex;
+            justify-content: space-around;
+            width: 100%;
+            height: 100px;
+            line-height: 100px;
+            background: linear-gradient(rgba(39,39,39, 0.6), transparent);
+            z-index: 100;
+        }
+
+        .nav-logo p {
+            color: white;
+            font-size: 25px;
+            font-weight: 600;
+        }
+
+        .nav-menu ul {
+            display: flex;
+        }
+
+        .nav-menu ul li {
+            list-style-type: none;
+        }
+
+        .nav-menu ul li .link {
+            text-decoration: none;
+            font-weight: 500;
+            color: #fff;
+            padding-bottom: 15px;
+            margin: 0 25px;
+        }
+
+        .link:hover, .active {
+            border-bottom: 2px solid #fff;
+        }
+
+        .nav-button .btn {
+            width: 130px;
+            height: 40px;
+            font-weight: 500;
+            background: rgba(255, 255, 255, 0.4);
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: .3s ease;
+        }
+
+        .btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        #registerBtn {
+            margin-left: 15px;
+        }
+
+        .btn.white-btn {
+            background: rgba(255, 255, 255, 0.4);
+        }
+
+        .btn.btn.white-btn:hover {
+            background: rgba(255, 255, 255, 0.5);
+        }
+
+        .nav-menu-btn {
+            display: none;
+        }
+
+        .form-box {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 512px;
+            height: 420px;
+            overflow: hidden;
+            z-index: 2;
+        }
+
+        .login-container {
+            position: absolute;
+            left: 4px;
+            width: 500px;
+            display: flex;
+            flex-direction: column;
+            transition: .5s ease-in-out;
+        }
+
+        .register-container {
+            position: absolute;
+            right: -520px;
+            width: 500px;
+            display: flex;
+            flex-direction: column;
+            transition: .5s ease-in-out;
+        }
+
+        .top span {
+            color: #fff;
+            font-size: small;
+            padding: 10px 0;
+            display: flex;
+            justify-content: center;
+        }
+
+        .top span a {
+            font-weight: 500;
+            color: #fff;
+            margin-left: 5px;
+        }
+
+        header {
+            color: #fff;
+            font-size: 30px;
+            text-align: center;
+            padding: 10px 0 30px 0;
+        }
+
+        .two-forms {
+            display: flex;
+            gap: 10px;
+        }
+
+        .input-field {
+            font-size: 15px;
+            background: rgba(255, 255, 255, 0.2);
+            color: #fff;
+            height: 50px;
+            width: 100%;
+            padding: 0 10px 0 45px;
+            border: none;
+            border-radius: 30px;
+            outline: none;
+            transition: .2s ease;
+        }
+
+        .input-field:hover, .input-field:focus {
+            background: rgba(255, 255, 255, 0.25);
+        }
+
+        ::-webkit-input-placeholder {
+            color: #fff;
+        }
+
+        .input-box i {
+            position: relative;
+            top: -35px;
+            left: 17px;
+            color: #fff;
+        }
+
+        .submit {
+            font-size: 15px;
+            font-weight: 500;
+            color: black;
+            height: 45px;
+            width: 100%;
+            border: none;
+            border-radius: 30px;
+            outline: none;
+            background: rgba(255, 255, 255, 0.7);
+            cursor: pointer;
+            transition: .3s ease-in-out;
+        }
+
+        .submit:hover {
+            background: rgba(255, 255, 255, 0.5);
+            box-shadow: 1px 5px 7px 1px rgba(0, 0, 0, 0.2);
+        }
+
+        .two-col {
+            display: flex;
+            justify-content: space-between;
+            color: #fff;
+            font-size: small;
+            margin-top: 10px;
+        }
+
+        .two-col .one {
+            display: flex;
+            gap: 5px;
+        }
+
+        .two label a {
+            text-decoration: none;
+            color: #fff;
+        }
+
+        .two label a:hover {
+            text-decoration: underline;
+        }
+
+        @media only screen and (max-width: 786px) {
+            .nav-button {
+                display: none;
+            }
+            .nav-menu.responsive {
+                top: 100px;
+            }
+            .nav-menu {
+                position: absolute;
+                top: -800px;
+                display: flex;
+                justify-content: center;
+                background: rgba(255, 255, 255, 0.2);
+                width: 100%;
+                height: 90vh;
+                backdrop-filter: blur(20px);
+                transition: .3s;
+            }
+            .nav-menu ul {
+                flex-direction: column;
+                text-align: center;
+            }
+            .nav-menu-btn {
+                display: block;
+            }
+            .nav-menu-btn i {
+                font-size: 25px;
+                color: #fff;
+                padding: 10px;
+                background: rgba(255, 255, 255, 0.2);
+                border-radius: 50%;
+                cursor: pointer;
+                transition: .3s;
+            }
+            .nav-menu-btn i:hover {
+                background: rgba(255, 255, 255, 0.15);
+            }
+        }
+
+        @media only screen and (max-width: 540px) {
+            .wrapper {
+                min-height: 100vh;
+            }
+            .form-box {
+                width: 80vw;
+                height: 500px;
+            }
+            .register-container {
+                width: 80vw;
+                padding: 0 20px;
+            }
+            .login-container {
+                width: 100%;
+                padding: 0 20px;
+            }
+            .register-container .two-forms {
+                flex-direction: column;
+                gap: 0;
+            }
+            #short {
+                display: block;
+            }
+        }
+
+        #short {
+            display: none;
+        }
+
+
+        .form-container {
+            flex: 1;
+            max-width: 512px; /* عرض فرم‌ها */
+        }
+
+        .image-container {
+            flex: 1;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+        }
+
+        .image-container img {
+            max-width: 80%;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .description-box {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            color: #fff;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+        }
+
+        .description-box h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .description-box p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        .left-section, .right-section {
+            flex: 1; /* هر دو بخش فضای مساوی بگیرند */
+            padding: 20px;
+            color: #fff; /* رنگ متن سفید */
 }
-.wrapper{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    background: rgba(39, 39, 39, 0.4);
-    
-}
-.nav{
-    position: fixed;
-    top: 0;
-    display: flex;
-    justify-content: space-around;
-    width: 100%;
-    height: 100px;
-    line-height: 100px;
-    background: linear-gradient(rgba(39,39,39, 0.6), transparent);
-    z-index: 100;
-}
-.nav-logo p{
-    color: white;
-    font-size: 25px;
-    font-weight: 600;
-}
-.nav-menu ul{
-    display: flex;
-}
-.nav-menu ul li{
-    list-style-type: none;
-}
-.nav-menu ul li .link{
-    text-decoration: none;
-    font-weight: 500;
-    color: #fff;
-    padding-bottom: 15px;
-    margin: 0 25px;
-}
-.link:hover, .active{
-    border-bottom: 2px solid #fff;
-}
-.nav-button .btn{
-    width: 130px;
-    height: 40px;
-    font-weight: 500;
-    background: rgba(255, 255, 255, 0.4);
-    border: none;
-    border-radius: 30px;
-    cursor: pointer;
-    transition: .3s ease;
-}
-.btn:hover{
-    background: rgba(255, 255, 255, 0.3);
-}
-#registerBtn{
-    margin-left: 15px;
-}
-.btn.white-btn{
-    background: rgba(255, 255, 255, 0.4);
-}
-.btn.btn.white-btn:hover{
-    background: rgba(255, 255, 255, 0.5);
-}
-.nav-menu-btn{
-    display: none;
-}
-.form-box{
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 512px;
-    height: 420px;
-    overflow: hidden;
-    z-index: 2;
-}
-.login-container{
-    position: absolute;
-    left: 4px;
-    width: 500px;
-    display: flex;
-    flex-direction: column;
-    transition: .5s ease-in-out;
-}
-.register-container{
-    position: absolute;
-    right: -520px;
-    width: 500px;
-    display: flex;
-    flex-direction: column;
-    transition: .5s ease-in-out;
-}
-.top span{
-    color: #fff;
-    font-size: small;
-    padding: 10px 0;
-    display: flex;
-    justify-content: center;
-}
-.top span a{
-    font-weight: 500;
-    color: #fff;
-    margin-left: 5px;
-}
-header{
-    color: #fff;
-    font-size: 30px;
-    text-align: center;
-    padding: 10px 0 30px 0;
-}
-.two-forms{
-    display: flex;
-    gap: 10px;
-}
-.input-field{
-    font-size: 15px;
-    background: rgba(255, 255, 255, 0.2);
-    color: #fff;
-    height: 50px;
-    width: 100%;
-    padding: 0 10px 0 45px;
-    border: none;
-    border-radius: 30px;
-    outline: none;
-    transition: .2s ease;
-}
-.input-field:hover, .input-field:focus{
-    background: rgba(255, 255, 255, 0.25);
-}
-::-webkit-input-placeholder{
-    color: #fff;
-}
-.input-box i{
-    position: relative;
-    top: -35px;
-    left: 17px;
-    color: #fff;
-}
-.submit{
-    font-size: 15px;
-    font-weight: 500;
-    color: black;
-    height: 45px;
-    width: 100%;
-    border: none;
-    border-radius: 30px;
-    outline: none;
-    background: rgba(255, 255, 255, 0.7);
-    cursor: pointer;
-    transition: .3s ease-in-out;
-}
-.submit:hover{
-    background: rgba(255, 255, 255, 0.5);
-    box-shadow: 1px 5px 7px 1px rgba(0, 0, 0, 0.2);
-}
-.two-col{
-    display: flex;
-    justify-content: space-between;
-    color: #fff;
-    font-size: small;
-    margin-top: 10px;
-}
-.two-col .one{
-    display: flex;
-    gap: 5px;
-}
-.two label a{
-    text-decoration: none;
-    color: #fff;
-}
-.two label a:hover{
-    text-decoration: underline;
-}
-@media only screen and (max-width: 786px){
-    .nav-button{
-        display: none;
+
+    .left-section {
+            margin-right: 20px; /* فاصله بین دو بخش */
+        }
+
+        .right-section {
+            margin-left: 20px; /* فاصله بین دو بخش */
+        }
+        @media only screen and (max-width: 768px) {
+            .content {
+                flex-direction: column;
+            }
+
+            .description-box {
+                margin-bottom: 20px;
+            }
+
+            .image-container {
+                margin-top: 20px;
+                justify-content: center;
+            }
+        }
+        @media only screen and (max-width: 768px) {
+            .content {
+                flex-direction: column;
+            }
+
+            .image-container {
+                margin-top: 100px;
+                justify-content: center;
+            }
+        }
+        .content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            max-width: 1200px; /* تنظیم عرض کلی صفحه */
+            margin: 0 auto;
+            padding: 20px;
+        }
+    @media only screen and (max-width: 768px) {
+        .content-container {
+            flex-direction: column; /* در دستگاه‌های کوچک، عمودی نمایش داده شود */
+        }
+
+        .left-section, .right-section {
+            margin: 0; /* حذف فاصله‌ها در حالت عمودی */
+            padding: 10px;
+        }
     }
-    .nav-menu.responsive{
-        top: 100px;
-    }
-    .nav-menu{
-        position: absolute;
-        top: -800px;
-        display: flex;
-        justify-content: center;
-        background: rgba(255, 255, 255, 0.2);
-        width: 100%;
-        height: 90vh;
-        backdrop-filter: blur(20px);
-        transition: .3s;
-    }
-    .nav-menu ul{
-        flex-direction: column;
-        text-align: center;
-    }
-    .nav-menu-btn{
-        display: block;
-    }
-    .nav-menu-btn i{
-        font-size: 25px;
-        color: #fff;
-        padding: 10px;
-        background: rgba(255, 255, 255, 0.2);
-        border-radius: 50%;
-        cursor: pointer;
-        transition: .3s;
-    }
-    .nav-menu-btn i:hover{
-        background: rgba(255, 255, 255, 0.15);
-    }
-}
-@media only screen and (max-width: 540px) {
-    .wrapper{
-        min-height: 100vh;
-    }
-    .form-box{
-        width: 80vw;
-        height: 500px;
-    }
-    .register-container, .login-container{
-        width: 100%;
-        padding: 0 20px;
-    }
-    .register-container .two-forms{
-        flex-direction: column;
-        gap: 0;
-    }
-}
+
     </style>
 </head>
 <body>
     <div class="wrapper">
         <nav class="nav">
             <div class="nav-logo">
-                <p>LOGO .</p>
+                <p>Sati .</p>
             </div>
             <div class="nav-menu" id="navMenu">
                 <ul>
                     <li><a href='' class="link active">Home</a></li>
                     <li><a href="/admin-panel" class="link">Admin Panel</a></li>
                     <li><a href="#" class="link">Services</a></li>
-                    
+                    <li id='short'><a href='/login' class='link'>login</a></li>
+                    <li id='short'><a href='/signup' class='link'>sign up</a></li>
                 </ul>
             </div>
             <div class="nav-button">
@@ -276,58 +417,63 @@ header{
                 <i class="bx bx-menu" onclick="myMenuFunction()"></i>
             </div>
         </nav>
-        <div>
-            {% block signupBox %}
-                {% endblock %}
-            {% block loginBox %}
-                {% endblock %}
-            {% block forgotPasswordBox %}
-                {%endblock%}
-            {% block homeBox %}
-                {%endblock%}
-            {% block user_detailBox %}
-                {% endblock %}
-            {% block adminPanelBox %}
-                {% endblock %}
+        <div class="content">
+            <div class="form-container">
+                {% block signupBox %}{% endblock %}
+                {% block loginBox %}{% endblock %}
+                {% block forgotPasswordBox %}{% endblock %}
+                {% block homeBox %}{% endblock %}
+                {% block user_detailBox %}{% endblock %}
+                {% block adminPanelBox %}{% endblock %}
+            </div>
+            <div class="description-box">
+                <div>
+                    <h1>Sati dictionary</h1>
+                </div>
+                <div class="description-box">
+                    <div class="left-section">
+                        <p>A simple dictionary for everyone</p>
+                        <p>In sati dictionary you can:</p>
+                        <p>-save words</p>
+                        <p>-search words in English and Persian</p>
+                        <p>-edit and delete word</p>
+                        <div class="nav-button">
+                            <a href="/login">
+                                <button class="btn white-btn" id="loginBtn" onclick="login()">Start now</button>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="image-container">
+                <img src="https://i.postimg.cc/4NXm1tKk/1-removebg-preview.png" alt="Project Image">
+            </div>
+            <div class="description-box">
+                <div class="description-box">
+                    <div class="right-section">
+                        <p>As admin you can:</p>
+                        <p>-view total words in database</p>
+                        <p>- view total users</p>
+                        <p>-view a diagram of saved words</p>
+                        <p>- view total words that each user saved with details</p>
+                        <p>
+                            Developed by: <strong>z.taghavi</strong> and <strong>h.najafi</strong>
+                        </p>
+                        <p>2025.2.1</p>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     <script>
+        function myMenuFunction() {
+            var i = document.getElementById("navMenu");
 
-   function myMenuFunction() {
-    var i = document.getElementById("navMenu");
-
-    if(i.className === "nav-menu") {
-        i.className += " responsive";
-    } else {
-        i.className = "nav-menu";
-    }
-   }
-
-    </script>
-
-    <script>
-
-        var a = document.getElementById("loginBtn");
-        var b = document.getElementById("registerBtn");
-        var x = document.getElementById("login");
-        var y = document.getElementById("register");
-
-        function login() {
-            x.style.left = "4px";
-            y.style.right = "-520px";
-            a.className += " white-btn";
-            b.className = "btn";
-            x.style.opacity = 1;
-            y.style.opacity = 0;
-        }
-
-        function register() {
-            x.style.left = "-510px";
-            y.style.right = "5px";
-            a.className = "btn";
-            b.className += " white-btn";
-            x.style.opacity = 0;
-            y.style.opacity = 1;
+            if (i.className === "nav-menu") {
+                i.className += " responsive";
+            } else {
+                i.className = "nav-menu";
+            }
         }
     </script>
 </body>

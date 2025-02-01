@@ -40,10 +40,44 @@
 .btn.btn.white-btn:hover{
     background: rgba(255, 255, 255, 0.3);
 }
+.form-box{
+    height: 500px;
+}
+
+.register-container{
+    
+    margin-top: 50px;
+}
+@media only screen and (max-width: 786px) {
+    .form-box{
+        height: 500px;
+    }
+
+    .register-container{
+        
+        
+        margin-top: 50px;
+    }
+}
+@media only screen and (max-width: 540px) {
+    .form-box{
+        height: 600px;
+    }
+
+    .register-container{
+        width: 80vw;
+        padding: 0 20px;
+        margin-top: 60px;
+    }
+}
+.description-box{
+      display: none;
+  }
 </style>
 <div class="form-box">
     <div class="register-container" id="register">
         <div class="top">
+            <span>Have an account? <a href="/login" onclick="login()" >Login</a></span>
             <header>Sign Up</header>
             <form method="POST" action="{% url 'signup' %}">
                 {% csrf_token %}

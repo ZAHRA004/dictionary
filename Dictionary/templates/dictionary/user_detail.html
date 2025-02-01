@@ -23,6 +23,9 @@
     .btn.btn.white-btn:hover{
         background: rgba(255, 255, 255, 0.5);
     }
+    .description-box{
+      display: none;
+  }
 
 .container {
     text-align: center;
@@ -118,12 +121,34 @@ button {
     font-size: 16px;
     cursor: pointer;
 }
+@media only screen and (max-width: 786px){
+    .container{
+        height: 1300px;
+    }
+    .content{
+        width : 80vw;
+        display: inline-block;
+
+    }
+    .add-words{
+        width : 100%;
+        margin-bottom : 50px;
+    }
+    .words-list{
+        width : 100%;
+        height: 441px;
+    }
+
+  }
+    .image-container {
+            display: none;
+        }
 </style>
 
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-element-bundle.min.js"></script>
 <div class="container">
     <div class="content">
-        <div class="words-list">
+        <div class="add-words">
             <swiper-container>
                 {% for word in words %}
                     <swiper-slide>
