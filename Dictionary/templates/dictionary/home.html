@@ -150,6 +150,7 @@ button {
   .nav-menu{
     display: none;
   }
+<<<<<<< HEAD
   .image-container {
             display: none;
         }
@@ -157,8 +158,21 @@ button {
       display: none;
   }
 
+=======
+  .nav-button{
+    display:none
+  }
+  .nav-menu-btn{
+    display: none;
+  }
+  .logout-button{
+    margin-top : 20px;
+  }
+ 
+>>>>>>> 7965a689253c1ac927842f4f19586a319711116f
 </style>
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-element-bundle.min.js"></script>
+
 <div class="container">
     <div class="search-bar">
         <form class = 'search' method="get" action="{% url 'home' %}">
@@ -167,7 +181,7 @@ button {
         </form>
 
     </div>
-    
+
 
     <div class="content">
         <!-- Add Words Form -->
@@ -216,7 +230,13 @@ button {
             </swiper-container>
         </div>
     </div>
+    <div class="logout-button">
+        <a href={%url 'intro' %}>
+            <button class="btn" id="logoutBtn" >Logout</button>
+        </a>
+    </div>
 </div>
+
 
 <!--<script>
     var timeout;
