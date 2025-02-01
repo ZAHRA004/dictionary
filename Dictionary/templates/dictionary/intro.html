@@ -274,7 +274,9 @@ header{
                     <button class="btn" id="registerBtn" onclick="register()">Sign Up</button>
                 </a>
             </div>
-            
+            <div class="nav-menu-btn">
+                <i class="bx bx-menu" onclick="myMenuFunction()"></i>
+            </div>
         </nav>
         <div>
             {% block signupBox %}
@@ -285,10 +287,13 @@ header{
                 {%endblock%}
             {% block homeBox %}
                 {%endblock%}
+            {% block user_detailBox %}
+                {% endblock %}
+            {% block adminPanelBox %}
+                {% endblock %}
         </div>
     </div>
-</body>
-<script>
+    <script>
 
    function myMenuFunction() {
     var i = document.getElementById("navMenu");
@@ -300,32 +305,32 @@ header{
     }
    }
 
-</script>
+    </script>
 
-<script>
+    <script>
 
-    var a = document.getElementById("loginBtn");
-    var b = document.getElementById("registerBtn");
-    var x = document.getElementById("login");
-    var y = document.getElementById("register");
+        var a = document.getElementById("loginBtn");
+        var b = document.getElementById("registerBtn");
+        var x = document.getElementById("login");
+        var y = document.getElementById("register");
 
-    function login() {
-        x.style.left = "4px";
-        y.style.right = "-520px";
-        a.className += " white-btn";
-        b.className = "btn";
-        x.style.opacity = 1;
-        y.style.opacity = 0;
-    }
+        function login() {
+            x.style.left = "4px";
+            y.style.right = "-520px";
+            a.className += " white-btn";
+            b.className = "btn";
+            x.style.opacity = 1;
+            y.style.opacity = 0;
+        }
 
-    function register() {
-        x.style.left = "-510px";
-        y.style.right = "5px";
-        a.className = "btn";
-        b.className += " white-btn";
-        x.style.opacity = 0;
-        y.style.opacity = 1;
-    }
-
-</script>
+        function register() {
+            x.style.left = "-510px";
+            y.style.right = "5px";
+            a.className = "btn";
+            b.className += " white-btn";
+            x.style.opacity = 0;
+            y.style.opacity = 1;
+        }
+    </script>
+</body>
 </html>

@@ -5,7 +5,10 @@ class Dictionary(models.Model):
     english = models.CharField(max_length=100)
     persian = models.CharField(max_length=100)
     description = models.CharField(max_length=3000)
-    addedUser = models.CharField(max_length=100)
+    addedUser = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.english
 
 
 class Word(models.Model):
