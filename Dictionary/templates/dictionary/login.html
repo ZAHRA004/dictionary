@@ -30,6 +30,18 @@
 <div class="form-box">
     <div class="login-container" id="login">
         <div class="top">
+            <div >
+                {% if request.GET.logout_reason %}
+                    <div class="alert" style="color: red;" id="logout-message">
+                        You have been logged out due to prolonged inactivity.
+                    </div>
+                    <script>
+                        setTimeout(function() {
+                            document.getElementById('logout-message').style.display = 'none';
+                        }, 10000); // 10000 milliseconds = 10 seconds
+                    </script>
+                {% endif %}
+            </div>
             <span>Don't have an account? <a href="/signup" onclick="register()">Sign Up</a></span>
             <header>Login</header>
             <form method="POST" action="{% url 'login' %}">

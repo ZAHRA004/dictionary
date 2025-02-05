@@ -69,6 +69,17 @@
             border-bottom: 2px solid #fff;
         }
 
+        .start{
+            width: 130px;
+            height: 40px;
+            font-weight: 500;
+            background: rgba(255, 255, 255, 0.4);
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: .3s ease;
+        }
+
         .nav-button .btn {
             width: 130px;
             height: 40px;
@@ -318,6 +329,7 @@
             padding: 30px;
             color: #fff;
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            margin-top: 70px;
         }
 
         .description-box h1 {
@@ -336,7 +348,6 @@
             padding: 20px;
             color: #fff; /* رنگ متن سفید */
 }
-
     .left-section {
             margin-right: 20px; /* فاصله بین دو بخش */
         }
@@ -364,6 +375,7 @@
             }
 
             .image-container {
+                display: none;
                 margin-top: 100px;
                 justify-content: center;
             }
@@ -400,7 +412,7 @@
                 <ul>
                     <li><a href={%url 'intro' %} class="link active">Home</a></li>
                     <li><a href="/admin-panel" class="link">Admin Panel</a></li>
-                    <li><a href="#" class="link">Services</a></li>
+
                     <li id='short'><a href='/login' class='link'>login</a></li>
                     <li id='short'><a href='/signup' class='link'>sign up</a></li>
                 </ul>
@@ -437,9 +449,9 @@
                         <p>-save words</p>
                         <p>-search words in English and Persian</p>
                         <p>-edit and delete word</p>
-                        <div class="nav-button">
+                        <div class="start">
                             <a href="/login">
-                                <button class="btn white-btn" id="loginBtn" onclick="login()">Start now</button>
+                                <button class="start" id="loginBtn" onclick="login()">Start now</button>
                             </a>
                         </div>
                     </div>

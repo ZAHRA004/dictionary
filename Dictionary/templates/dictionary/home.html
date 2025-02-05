@@ -59,6 +59,7 @@
 /* Add Words Box */
 .add-words,
 .words-list {
+    height: 450px;
     width: 45%;
     background: white;
     padding: 20px;
@@ -150,7 +151,6 @@ button {
   .nav-menu{
     display: none;
   }
-<<<<<<< HEAD
   .image-container {
             display: none;
         }
@@ -158,7 +158,6 @@ button {
       display: none;
   }
 
-=======
   .nav-button{
     display:none
   }
@@ -168,11 +167,9 @@ button {
   .logout-button{
     margin-top : 20px;
   }
- 
->>>>>>> 7965a689253c1ac927842f4f19586a319711116f
+
 </style>
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-element-bundle.min.js"></script>
-
 <div class="container">
     <div class="search-bar">
         <form class = 'search' method="get" action="{% url 'home' %}">
@@ -208,15 +205,19 @@ button {
             <swiper-container>
                 {% for word in words %}
                     <swiper-slide>
-                        <form method="post" action="{% url 'home' %}">
+                        <form method="post" action="{% url 'home' %}" onsubmit="return validateForm()">
                             {% csrf_token %}
                             <input type="hidden" name="edit_word" value="{{ word.id }}">
+
                             <label for="english_{{ word.id }}">English:</label>
-                            <input type="text" id="english_{{ word.id }}" name="english" value ="{{ word.english }}" required>
+                            <input type="text" id="english_{{ word.id }}" name="english" value="{{ word.english }}" required oninput="validateEnglishInput(this)">
+
                             <label for="persian_{{ word.id }}">Persian:</label>
-                            <input type="text" id="persian_{{ word.id }}" name="persian" value="{{ word.persian }}" required>
+                            <input type="text" id="persian_{{ word.id }}" name="persian" value="{{ word.persian }}" required oninput="validatePersianInput(this)">
+
                             <label for="description_{{ word.id }}">Description:</label>
                             <input type="text" id="description_{{ word.id }}" name="description" value="{{ word.description }}">
+
                             <button class="edit" type="submit">Edit</button>
                         </form>
 
@@ -237,18 +238,44 @@ button {
     </div>
 </div>
 
+    <script>
 
-<!--<script>
+
+    function validateForm() {
+    const englishInput = document.getElementById('english_{{ word.id }}');
+    const persianInput = document.getElementById('persian_{{ word.id }}');
+
+    const englishPattern = /^[A-Za-z\s]*$/;
+    const persianPattern = /^[\u0600-\u06FF\s]*$/;
+
+    let isValid = true;
+
+    // اعتبارسنجی ورودی انگلیسی
+    if (!englishPattern.test(englishInput.value)) {
+        alert('Please enter only English letters and spaces in the English field.');
+        isValid = false;
+    }
+
+    // اعتبارسنجی ورودی فارسی
+    if (!persianPattern.test(persianInput.value)) {
+        alert('Please enter only Persian letters and spaces in the Persian field.');
+        isValid = false;
+    }
+
+    return isValid;
+}
+
+
     var timeout;
     function resetTimeout() {
         clearTimeout(timeout);
         timeout = setTimeout(function() {
             window.location.href = '{% url "login" %}?logout_reason=inactivity';
-        }, 10000);
+        }, 1000000000000);
     }
 
     window.onload = resetTimeout;
     document.onmousemove = resetTimeout;
     document.onkeypress = resetTimeout;
-    </script>-->
+    </script>
 {%endblock%}
