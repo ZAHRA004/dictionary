@@ -28,7 +28,7 @@ This is a **web-based personal dictionary** built with **Django**, inspired by t
 ## 🛠️ Tech Stack
 
 - **Backend**: Django (Python)
-- **Frontend**: Django Templates + Bootstrap
+- **Frontend**: Django Templates + HTML & CSS & JS
 - **Database**: SQLite
 - **Email**: Django Email Backend (for password reset)
 - **Security**: Captcha with `django-simple-captcha`
